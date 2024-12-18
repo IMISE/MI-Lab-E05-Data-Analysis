@@ -10,20 +10,7 @@
 - Docker Compose starten \
     ```docker compose up```
 - Studiendaten laden:
-  - Unterverzeichnis mit Studiendaten (z.B. DataUpload) als Volume im tmload Service einbinden 
-    ```
-      tmload:
-    image: transmartfoundation/transmart-load:latest
-    depends_on:
-      - tmdb
-    env_file:
-      - ${ENV_FILE}
-    networks:
-      - transmart
-    volumes:
-      - "./DataUpload:/my_studies"
-    ```
-  - Studiendaten laden mit "docker compose" \
-    ```docker compose run --rm tmload /my_studies/<Studien-Skript>```
+  - Unterverzeichnis mit Studiendaten (z.B. DataUpload/studies/<Studien-Ordner>) als Volume für tmload Service einbinden und das Script zu Laden der Studiendaten starten
+    ```docker-compose run --rm -v ./DataUpload/studies/<Studien-Ordner>/:/my_study tmload sh /my_study/load_clinical.sh```
 
   
