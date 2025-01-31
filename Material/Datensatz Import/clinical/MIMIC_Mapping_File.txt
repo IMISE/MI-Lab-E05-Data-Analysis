@@ -1,0 +1,18 @@
+filename	category_cd	col_nbr	data_label
+MIMIC.txt		1	STUDY_ID
+MIMIC.txt		2	subject_id
+MIMIC.txt	Subjects+Demographics	3	age
+MIMIC.txt	Subjects+Demographics	4	gender
+MIMIC.txt	Admissions	5	admission_type
+MIMIC.txt	Admissions	6	insurance
+MIMIC.txt	Clinical_Data+Diagnosis	7	vorhofflimmern
+MIMIC.txt	Clinical_Data+Diagnosis	8	hyperlipidaemie
+MIMIC.txt	Clinical_Data+Lab_Values	9	creatinine
+MIMIC.txt	Clinical_Data+Lab_Values	10	hematocrit
+MIMIC.txt	Clinical_Data+Medication	11	infusion
+MIMIC.txt	Clinical_Data+Ventilation	12	ventilation
+MIMIC.txt	Clinical_Data+Medication	13	ibuprofen
+MIMIC.txt	Clinical_Data+Medication	14	fentanyl
+MIMIC.txt	Subjects+Medical_History	15	weight
+MIMIC.txt	Clinical_Data+Vital_Parameters	16	blood_pressure
+MIMIC.txt	Clinical_Data+Vital_Parameters	17	vital_status
