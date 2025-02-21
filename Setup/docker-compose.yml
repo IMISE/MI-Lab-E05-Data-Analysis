@@ -1,0 +1,79 @@
+version: '3'
+services:
+  tmweb:
+    image: umgmi/tm-umg-web
+    environment:
+      - DOMAIN=${DOMAIN}
+      - PROTOCOL=${PROTOCOL}
+    depends_on:
+      - tmapp
+    volumes:
+      - tm_webconf:/etc/nginx/conf.d/
+      - ./transmart-web/certs:/etc/nginx/ssl/
+    ports:
+      - "127.0.0.1:443:443"
+      - "127.0.0.1:80:80"
+    restart: unless-stopped
+  tmapp:
+    image: umgmi/tm-umg-app
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DOMAIN=${DOMAIN}
+      - PROTOCOL=${PROTOCOL}
+      - ADMIN_MAIL=${ADMIN_MAIL}
+      - GET_CURRENT_WAR=${GET_CURRENT_WAR}
+      - WAR_BRANCH=${WAR_BRANCH:-release-16.2-UMG}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - tmdb
+      - tmsolr
+    volumes:
+      - "./transmart-app/setenv.sh:/usr/local/tomcat/bin/setenv.sh"
+      - "tm_app:/root"
+      - "tm_apptmp:/tmp"
+      - "tm_apptomcat:/usr/local/tomcat"
+      - "tm_opt:/opt"
+  tmdb:
+    image: umgmi/tm-umg-db
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - "tm_postgresdata:/var/lib/postgresql"
+      - "tm_postgreslogs:/var/log/postgresql"
+      - "tm_postgresconfig:/etc/postgresql"
+  tmsolr:
+    image: umgmi/tm-umg-solr
+    restart: unless-stopped
+  tmrserve:
+    image: umgmi/tm-umg-rserve
+    restart: unless-stopped
+    volumes:
+      - "tm_apptmp:/tmp"
+      - "tm_apptomcat:/usr/local/tomcat"
+  tmbatch:
+    image: umgmi/tm-umg-batch
+    environment:
+      - POSTGRES_USER="postgres"
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - tmdb
+    volumes:
+      - "tm_opt:/opt"
+
+volumes:
+  tm_app:
+  tm_apptmp:
+  tm_apptomcat:
+  tm_postgresconfig:
+  tm_postgresdata:
+  tm_postgreslogs:
+  tm_webconf:
+  tm_webvhost:
+  tm_webcrt:
+  tm_cert:
+  tm_opt:

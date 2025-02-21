@@ -1,0 +1,27 @@
+# start container demonized
+docker-compose up --no-recreate -d
+
+# bild images
+docker-compose build
+
+# force recreate
+docker-compose up --force-recreat
+
+# show logs
+docker-compose logs -f
+
+#Kill all running containers
+docker kill $(docker ps -aq)
+#Delete all stopped containers (including data-only containers)
+docker rm $(docker ps -a -q)
+#Delete all 'untagged/dangling' (<none>) images
+docker rmi $(docker images -q -f dangling=true)
+#Delete ALL images
+docker rmi $(docker images -q)
+#Delete volumes
+docker volume rm $(docker volume ls -q)
+
+docker kill $(docker ps -aq) && docker rm $(docker ps -a -q) && docker rmi $(docker images -aq) && docker volume rm $(docker volume ls -aq)
+
+
+
